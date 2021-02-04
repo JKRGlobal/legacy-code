@@ -1,0 +1,42 @@
+#!/bin/sh
+
+#  Install-Zoom.sh
+#
+#
+#  Created by Ellie Shiel on 26/01/2017
+#
+
+# Run as root
+
+if
+
+[[ $EUID -ne 0 ]]; then
+/bin/echo "This script must run as root."
+
+# Not running as root.
+
+exit 1
+
+fi
+
+# Mount software share
+
+mkdir /Volumes/.Prep
+mount -t afp afp://deploy:D3pl0y11@LN01-DEP01.jkr.co.uk/Casper/Packages /Volumes/.Prep
+
+# Create Repository
+
+mkdir /var/folders/Temp
+cp -r /Volumes/.Prep/ZoomInstaller.pkg /var/folders/Temp
+
+# Install Zoom.pkg
+
+installer -pkg /var/folders/Temp/ZoomInstaller.pkg -target /
+
+# Unmount software share
+
+umount /Volumes/.Prep
+
+rm -rf /var/folders/Temp
+
+exit 0

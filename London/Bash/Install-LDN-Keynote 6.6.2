@@ -1,0 +1,42 @@
+#!/bin/sh
+
+#  Install-Keynote.sh
+#
+#
+#  Created by Ellie Shiel and Adrian Williams on 26/01/2017.
+#
+
+# Run as root
+
+if
+
+[[ $EUID -ne 0 ]]; then
+/bin/echo "This script must run as root."
+
+# Not running as root.
+
+exit 1
+
+fi
+
+# Mount software share
+
+mkdir /Volumes/.Prep
+mount -t afp afp://deploy:D3pl0y11@LN01-DEP01.jkr.co.uk/Casper/Packages /Volumes/.Prep
+
+# Create Repository
+
+mkdir /var/Temp
+cp -r /Volumes/.Prep/Keynote.pkg /var/Temp
+
+# Install Keynote.pkg
+
+installer -pkg /var/Temp/Keynote.pkg -target /
+
+# Unmount software share
+
+umount /var/Temp
+
+
+exit 0
+
